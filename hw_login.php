@@ -1,6 +1,5 @@
 <?php
 	//võtab ja kopeerib faili sisu
-	require("../../config.php");
 	require("hw_functions.php"); //võid ka configi panna functionsisse, vahet pole
 	
 	//var_dump - näitab kõike, mis muutuja sees

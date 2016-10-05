@@ -1,5 +1,6 @@
 <?php
 	//functions.php
+	require("../../config.php");
 	
 	//alustan sessiooni, et saaks kasutada $_SESSION muutujaid
 	session_start(); //sessioon töötab, isegi kui kasutaja pole veel sisse logind
@@ -73,6 +74,21 @@
 		return $error;
 	}
 	
+	function savePeople ($gender, $color){
+		
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		
+		$stmt = $mysqli->prepare("INSERT INTO clothingOnTheCampus(gender, color) VALUES(?,?)");
+		echo $mysqli->error;
+		
+		$stmt->bind_param("ss", $gender, $color); 
+		
+		if($stmt->execute()) {
+			echo "salvestamine õnnestus";
+		} else {
+			echo "ERROR".$stmt->error;
+		}
+	}
 	
 	
 	/*function sum($x, $y){
@@ -89,5 +105,24 @@
 		return "Tere tulemast ".$firstName." ".$lastName."!";
 	}
 	
-	echo hello("Mariann", "Kraav");*/
+	echo hello("Mariann", "Kraav");
+	
+	Meil palju if, issette htmlis, saab ka ühe funktsioonina
+	
+	function issetAndNotEmpty($var){
+		if(isset($var)) {
+			if(!empty ($var)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	if (issetAndNotEmpty($_POST["loginEmail"])) {
+		
+		//vastab tõele
+		
+	}
+	
+	*/
 ?>
