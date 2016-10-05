@@ -35,7 +35,7 @@
 <p>
 	Tere tulemast <?=$_SESSION["firstName"];?>!
 	<a href="?logout=1">Logi välja</a>
-</p>
+<p>
 <h2>Loo uus postitus</h2>
 <form method="POST">
 	<label>Pealkiri:</label>
@@ -48,6 +48,7 @@
 </form>
 
 <h1>Foorum</h1>
+<p>
 <?php
 	$html = "<table>";
 		$html .= "<tr>"; // 
@@ -60,7 +61,8 @@
 	foreach($topics as $t){
 		$html .= "<tr>";
 			//$html .= "<td>".$t->id."</td>";
-			$html .= "<td> <a href='#heading' onclick='changeTitle()'>".$t->subject."</a></td>";
+			//$html .= "<td> <a href='#heading' onclick='changeTitle()'>".$t->subject."</a></td>";
+			$html .= "<td> ".$t->subject."</a></td>";
 			$html .= "<td>".$t->user."</td>";
 			$html .= "<td>".$t->created."</td>";
 		$html .= "</tr>";
@@ -87,11 +89,14 @@
 	//echo $html;
 	$contentTable = $html;
 ?>
+<br>
+<button onclick="addContent()">Näita teemade sisu</button>
+</p>
 
 <h1 id="heading"><span id="newHeading"></span></h1>
 <p id="content">
 <script>
-	function changeTitle(){
+	function addContent(){
 		/*<?php $headingName =  $_SESSION["subject"];?> */
 		document.getElementById('newHeading').innerHTML = 'Teemade sisu ';
 		document.getElementById('content').innerHTML = '<?php echo $contentTable ?> ';
