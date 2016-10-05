@@ -138,14 +138,14 @@
 		}
 	}
 	
-	function createNewContent($content){
+	function createNewContent($content, $subject, $user){
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("INSERT INTO replies(content) VALUES(?)");
+		$stmt = $mysqli->prepare("INSERT INTO replies(content, subject, user) VALUES(?,?,?)");
 		echo $mysqli->error;
 		
-		$stmt->bind_param("s", $content); 
+		$stmt->bind_param("sss", $content, $subject, $user); 
 		
 		if($stmt->execute()) {
 			echo "salvestamine õnnestus<br>";
@@ -171,14 +171,14 @@
 		
 		//seni kuni on üks rida andmeid saada (10 rida = 10 korda)
 		while ($stmt->fetch()){	
-			$topics = new StdClass();
-			$topics->id = $id;
-			$topics->subject = $subject;
-			$topics->created = $date;
-			$topics->user = $user;
+			$topic = new StdClass();
+			$topic->id = $id;
+			$topic->subject = $subject;
+			$topic->created = $date;
+			$topic->user = $user;
 		
 			//echo $color."<br>";	
-			array_push ($result, $topics);
+			array_push ($result, $topic);
 			$_SESSION["subject"] = $subject;
 		}
 		$stmt->close();
@@ -187,39 +187,36 @@
 		return $result;
 	}
 	
-	
-	/*function sum($x, $y){
-		return $x + $y;
-	}
-	
-	echo sum(34,10);
-	echo "<br>";
-	//võid hoida meeles ka muutujas $answer = sum(10,15);
-	//echo $answer;
-	
-	//arvude liitmine +, stringide liitmine .
-	function hello ($firstName, $lastName) {
-		return "Tere tulemast ".$firstName." ".$lastName."!";
-	}
-	
-	echo hello("Mariann", "Kraav");
-	
-	Meil palju if, issette htmlis, saab ka ühe funktsioonina
-	
-	function issetAndNotEmpty($var){
-		if(isset($var)) {
-			if(!empty ($var)) {
-				return true;
-			}
+	function addContentToArray (){
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		
+		$stmt = $mysqli->prepare("
+			SELECT id, content, created, subject, user
+			FROM replies
+		");
+		echo $mysqli->error;
+		
+		$stmt->bind_result($id, $content, $created, $topic, $user);
+		$stmt-> execute();
+		
+		// array ("Mariann", "M") massiiv
+		$result = array();
+		
+		//seni kuni on üks rida andmeid saada (10 rida = 10 korda)
+		while ($stmt->fetch()){	
+			$reply = new StdClass();
+			$reply->id = $id;
+			$reply->content = $content;
+			$reply->created = $created;
+			$reply->topic = $topic;
+			$reply->user = $user;
+		
+			//echo $color."<br>";	
+			array_push ($result, $reply);
 		}
-		return false;
-	}
-	
-	if (issetAndNotEmpty($_POST["loginEmail"])) {
+		$stmt->close();
+		$mysqli->close();
 		
-		//vastab tõele
-		
+		return $result;
 	}
-	
-	*/
 ?>

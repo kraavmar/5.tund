@@ -17,8 +17,9 @@
 		session_destroy();
 		header("Location:hw2_login.php");
 	}
-	
+
 	$topics = addPostToArray();
+	$replies = addContentToArray();
 	
 	if (isset ($_POST["headline"]) && 
 		isset ($_POST["content"]) && 
@@ -26,8 +27,7 @@
 		!empty ($_POST["content"])
 		){
 			createNewPost ($_POST["headline"], $_SESSION["firstName"]);
-			createNewContent ($_POST["content"]); 	
-			echo $_SESSION["firstName"];
+			createNewContent ($_POST["content"], $_POST["headline"], $_SESSION["firstName"]); 	
 	}	
 ?>
 
@@ -67,19 +67,35 @@
 	} 
 	
 	$html .= "</table>";
-	
 	echo $html;
 	
 	$headingName = "";
+	$html = "<table>";
+		$html .= "<tr>"; // 
+			//$html .= "<th>Id</th>";
+			$html .= "<th>Teema</th>";
+			$html .= "<th>Sisu</th>";
+		$html .= "</tr>";
+
+	foreach($replies as $r){
+		$html .= "<tr>";
+			//$html .= "<td>".$t->id."</td>";
+			$html .= "<td>".$r->topic."</td>";
+			$html .= "<td>".$r->content."</td>";
+		$html .= "</tr>";
+	} 
+	//echo $html;
+	$contentTable = $html;
 ?>
 
-<h1 id="heading"> <?php echo $headingName; ?> </h1>
-<p>
+<h1 id="heading"><span id="newHeading"></span></h1>
+<p id="content">
 <script>
 	function changeTitle(){
-		/*<?php $headingName =  $_SESSION["subject"];?> 
-		document.getElementById('heading').innerHTML = '<?php echo $headingName; ?>';*/
-		document.getElementById('heading').innerHTML = 'Valitud teema sisu: ';
-	}
+		/*<?php $headingName =  $_SESSION["subject"];?> */
+		document.getElementById('newHeading').innerHTML = 'Teemade sisu ';
+		document.getElementById('content').innerHTML = '<?php echo $contentTable ?> ';
+		}
 </script>
+
 </p>
