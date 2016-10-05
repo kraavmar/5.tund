@@ -25,7 +25,14 @@
 		!empty ($_POST["color"])
 		){
 			savePeople ($_POST["gender"], $_POST["color"]); 
-		}	
+	}	
+		
+	$people = getAllPeople();
+	//pre näitab ilusti sisu
+	/*echo "<pre>";
+	var_dump($people);
+	//var_dump($people[2]); näitab indeksi järgi ühte muutujat massiivis
+	echo "</pre>";*/
 ?>
 
 <h1>Data</h1>
@@ -45,3 +52,37 @@
 	<br><br>
 	<input type="submit" value = "Salvesta">
 </form>
+
+<h2>Arhiiv</h2>
+<?php
+	foreach($people as $p){
+		echo "<h3 style=' color:" .$p->clothingColor."; '>"
+		.$p->gender
+		."</h3>";
+	} 
+?>
+
+<h2>Arhiivtabel</h2>
+<?php
+	$html = "<table>";
+		$html .= "<tr>"; // .= stringide liitmine olemasolevale koguaeg juurde
+			$html .= "<th>Id</th>";
+			$html .= "<th>Sugu</th>";
+			$html .= "<th>Värv</th>";
+			$html .= "<th>Loodud</th>";
+		$html .= "</tr>";
+
+	foreach($people as $p){
+		$html .= "<tr>"; // .= stringide liitmine olemasolevale koguaeg juurde
+			$html .= "<td>".$p->id."</td>";
+			$html .= "<td>".$p->gender."</td>";
+			$html .= "<td style=' background-color:".$p->clothingColor."; '>".$p->clothingColor."</td>";
+			$html .= "<td>".$p->created."</td>";
+		$html .= "</tr>";
+
+	} 
+	
+	$html .= "</table>";
+	
+	echo $html;
+?>
