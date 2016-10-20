@@ -18,8 +18,6 @@
 		header("Location:hw2_login.php");
 	}
 
-	$topics = addPostToArray();
-	$replies = addContentToArray();
 	
 	if (isset ($_POST["headline"]) && 
 		isset ($_POST["content"]) && 
@@ -28,7 +26,12 @@
 		){
 			createNewPost ($_POST["headline"], $_SESSION["firstName"]);
 			createNewContent ($_POST["content"], $_POST["headline"], $_SESSION["firstName"]); 	
+			header("Location:hw2_data.php");
 	}	
+	
+	$topics = addPostToArray();
+	$replies = addContentToArray();
+	
 ?>
 
 <h1>Data</h1>
