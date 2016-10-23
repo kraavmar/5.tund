@@ -3,12 +3,16 @@
 	
 	require("hw2_functions.php");
 	
+	$newHeadlineError = "";
+	$newContentError = "";
+	
 	//kas on sisse loginud, kui ei ole, siis suunata login lehele
 	
 	if (!isset($_SESSION["userId"])) { //kui ei ole session userId, suuna login lehele 
 	//ehk data.php sisestades ribale, pole sisse logind, suunadb login.php lehele
 		
 		header("Location:hw2_login.php");
+		exit(); // If you don't put exit() after your header('Location: ...') your script may continue resulting in unexpected behaviour. This may for example result in content being disclosed that you actually wanted to prevent with the redirect.
 	}
 	
 	//kas ?logout on aadressireal
@@ -16,18 +20,33 @@
 		
 		session_destroy();
 		header("Location:hw2_login.php");
+		exit();
 	}
-
+	
+	if (isset ($_POST["headline"]) ){ 
+		if (empty ($_POST["headline"]) ){ 
+			$newHeadlineError = "See väli on kohustuslik!";
+		}
+	}
+	
+	if (isset ($_POST["content"]) ){ 
+		if (empty ($_POST["content"]) ){ 
+			$newContentError = "See väli on kohustuslik!";
+		}
+	}
 	
 	if (isset ($_POST["headline"]) && 
 		isset ($_POST["content"]) && 
-		!empty ($_POST["headline"]) && 
-		!empty ($_POST["content"])
+		/*!empty ($_POST["headline"]) && 
+		!empty ($_POST["content"])*/
+		empty($newHeadlineError)&&
+		empty($newContentError)
 		){
-			createNewPost ($_POST["headline"], $_SESSION["firstName"]);
-			createNewContent ($_POST["content"], $_POST["headline"], $_SESSION["firstName"]); 	
+			createNewPost (cleanInput($_POST["headline"]), $_SESSION["firstName"]);
+			createNewContent (cleanInput($_POST["content"]), cleanInput($_POST["headline"]), $_SESSION["firstName"]); 	
 			header("Location:hw2_data.php");
-	}	
+			exit();
+	} 
 	
 	$topics = addPostToArray();
 	$replies = addContentToArray();
@@ -42,10 +61,10 @@
 <h2>Loo uus postitus</h2>
 <form method="POST">
 	<label>Pealkiri:</label>
-	<input type="text" name="headline">
+	<input type="text" name="headline"> <?php echo $newHeadlineError; ?>
 	<br><br>
 	<label>Sisu:</label>
-	<textarea cols="40" rows="5" name="content" ></textarea>
+	<textarea cols="40" rows="5" name="content" ></textarea> <?php echo $newContentError; ?>
 	<br><br>
 	<input type="submit" value = "Postita">
 </form>
@@ -94,6 +113,7 @@
 ?>
 <br>
 <button onclick="addContent()">Näita teemade sisu</button>
+<button onclick="removeContent()">Peida teemade sisu</button>
 </p>
 
 <h1 id="heading"><span id="newHeading"></span></h1>
@@ -103,6 +123,10 @@
 		/*<?php $headingName =  $_SESSION["subject"];?> */
 		document.getElementById('newHeading').innerHTML = 'Teemade sisu ';
 		document.getElementById('content').innerHTML = '<?php echo $contentTable ?> ';
+		}
+	function removeContent(){
+		document.getElementById('newHeading').innerHTML = '';
+		document.getElementById('content').innerHTML = '';
 		}
 </script>
 

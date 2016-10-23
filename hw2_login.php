@@ -132,7 +132,7 @@
 		
 		//echo $serverPassword;
 		
-		signup($firstName, $lastName, $signupEmail, $password, $gender, $phoneNumber);
+		signup(cleanInput($firstName, $lastName, $signupEmail, $password, $gender, $phoneNumber));
 		
 	}
 	
@@ -144,7 +144,7 @@
 		!empty ($_POST["loginPassword"])
 		){
 			//login sisse
-			$notice= login($_POST["loginEmail"], $_POST["loginPassword"]); //functions error kandus üle notice muutujasse login funktsiooniga
+			$notice= login(cleanInput($_POST["loginEmail"]), cleanInput($_POST["loginPassword"])); //functions error kandus üle notice muutujasse login funktsiooniga
 		}
 ?>
 
