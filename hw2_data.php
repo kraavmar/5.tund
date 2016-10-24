@@ -6,6 +6,8 @@
 	$newHeadlineError = "";
 	$newContentError = "";
 	
+	$newHeadline = "";	
+	
 	//kas on sisse loginud, kui ei ole, siis suunata login lehele
 	
 	if (!isset($_SESSION["userId"])) { //kui ei ole session userId, suuna login lehele 
@@ -26,12 +28,16 @@
 	if (isset ($_POST["headline"]) ){ 
 		if (empty ($_POST["headline"]) ){ 
 			$newHeadlineError = "See väli on kohustuslik!";
+		} else {
+			$newHeadline = $_POST["headline"];
 		}
 	}
 	
 	if (isset ($_POST["content"]) ){ 
 		if (empty ($_POST["content"]) ){ 
 			$newContentError = "See väli on kohustuslik!";
+		} else {
+			$newContent = $_POST["content"];
 		}
 	}
 	
@@ -61,10 +67,12 @@
 <h2>Loo uus postitus</h2>
 <form method="POST">
 	<label>Pealkiri:</label>
-	<input type="text" name="headline"> <?php echo $newHeadlineError; ?>
+	<input type="text" name="headline" value="<?=$newHeadline;?>"> <?php echo $newHeadlineError; ?>
 	<br><br>
 	<label>Sisu:</label>
-	<textarea cols="40" rows="5" name="content" ></textarea> <?php echo $newContentError; ?>
+	<textarea cols="40" rows="5" name="content" <?=$newContent = ""; if (isset($_POST['content'])) { $newContent = $_POST['content'];}?> ><?php echo $newContent; ?></textarea> <?php echo $newContentError; ?> <!--Textareal pole eraldi value, vaid käib nurksulgudesse-->
+	
+	
 	<br><br>
 	<input type="submit" value = "Postita">
 </form>
