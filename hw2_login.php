@@ -110,8 +110,8 @@
 		&& isset ($_POST["lastName"])
 		&& isset($_POST["signupEmail"])
 		&& isset ($_POST["signupPassword"])
-		&& isset ($_POST["gender"])
-		&& isset ($_POST["phoneNumber"])
+		//pole kohustuslik	&& isset ($_POST["gender"])
+		//pole kohustuslik	&& isset ($_POST["phoneNumber"])
 		&& empty($firstNameError) 
 		&& empty($lastNameError) 
 		&& empty($signupEmailError) 
@@ -132,8 +132,7 @@
 		
 		//echo $serverPassword;
 		
-		signup(cleanInput($firstName), cleanInput($lastName), cleanInput($signupEmail), cleanInput($password), cleanInput($gender), cleanInput($phoneNumber));
-		
+		signup(cleanInput($firstName), cleanInput($lastName), cleanInput($signupEmail), cleanInput($password), cleanInput($gender), cleanInput($phoneNumber)); //clearInput igale muutujale eraldi teha
 	}
 	
 	$notice = "";

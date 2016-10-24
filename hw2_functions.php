@@ -17,7 +17,6 @@
 	$database = "if16_marikraav"; //database väljapoole nähtav
 	function signup ($firstName, $lastName, $email, $password, $gender, $phoneNumber){
 		//selle sees muutujad pole väljapoole nähtavad
-		echo "tere";
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
