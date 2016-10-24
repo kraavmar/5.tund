@@ -1,6 +1,6 @@
-<?php
+<?php 
 	//võtab ja kopeerib faili sisu
-	require("hw2_functions.php"); //võid ka configi panna functionsisse, vahet pole
+	require("hw2_functions.php");
 	
 	//var_dump - näitab kõike, mis muutuja sees
 	//var_dump($_GET);
@@ -132,7 +132,7 @@
 		
 		//echo $serverPassword;
 		
-		signup(cleanInput($firstName, $lastName, $signupEmail, $password, $gender, $phoneNumber));
+		signup(cleanInput($firstName), cleanInput($lastName), cleanInput($signupEmail), cleanInput($password), cleanInput($gender), cleanInput($phoneNumber));
 		
 	}
 	

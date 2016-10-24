@@ -1,6 +1,8 @@
 <?php
 	//functions.php
-	require("../../config.php");
+	
+	require("../../config.php"); //nõuab seda faili ja crashib kui ei saa
+	//require_once("../../config.php"); //kontrollib kas see fail on juba lisatud, võtab vähem ressurssi 
 	
 	//alustan sessiooni, et saaks kasutada $_SESSION muutujaid
 	session_start(); //sessioon töötab, isegi kui kasutaja pole veel sisse logind
@@ -15,6 +17,7 @@
 	$database = "if16_marikraav"; //database väljapoole nähtav
 	function signup ($firstName, $lastName, $email, $password, $gender, $phoneNumber){
 		//selle sees muutujad pole väljapoole nähtavad
+		echo "tere";
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
@@ -123,14 +126,14 @@
 		return $result;
 	}
 	
-	function createNewPost($subject, $user){
+	function createNewPost($subject, $user, $email){
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("INSERT INTO topics(subject, user) VALUES(?,?)");
+		$stmt = $mysqli->prepare("INSERT INTO topics(subject, user, email) VALUES(?,?,?)");
 		echo $mysqli->error;
 		
-		$stmt->bind_param("ss", $subject, $user); 
+		$stmt->bind_param("sss", $subject, $user, $email); 
 		
 		if($stmt->execute()) {
 			echo "salvestamine õnnestus<br>";
@@ -139,14 +142,14 @@
 		}
 	}
 	
-	function createNewContent($content, $subject, $user){
+	function createNewContent($content, $subject, $user, $email){
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("INSERT INTO replies(content, subject, user) VALUES(?,?,?)");
+		$stmt = $mysqli->prepare("INSERT INTO replies(content, subject, user, email) VALUES(?,?,?,?)");
 		echo $mysqli->error;
 		
-		$stmt->bind_param("sss", $content, $subject, $user); 
+		$stmt->bind_param("ssss", $content, $subject, $user, $email); 
 		
 		if($stmt->execute()) {
 			echo "salvestamine õnnestus<br>";
@@ -159,12 +162,12 @@
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
 		$stmt = $mysqli->prepare("
-			SELECT id, subject, created, user
+			SELECT id, subject, created, user, email
 			FROM topics
 		");
 		echo $mysqli->error;
 		
-		$stmt->bind_result ($id, $subject, $date, $user);
+		$stmt->bind_result ($id, $subject, $date, $user, $email);
 		$stmt-> execute();
 		
 		// array ("Mariann", "M") massiiv
@@ -177,6 +180,7 @@
 			$topic->subject = $subject;
 			$topic->created = $date;
 			$topic->user = $user;
+			$topic->email = $email;
 		
 			//echo $color."<br>";	
 			array_push ($result, $topic);
@@ -192,12 +196,12 @@
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		
 		$stmt = $mysqli->prepare("
-			SELECT id, content, created, subject, user
+			SELECT id, content, subject
 			FROM replies
 		");
 		echo $mysqli->error;
 		
-		$stmt->bind_result($id, $content, $created, $topic, $user);
+		$stmt->bind_result($id, $content, $topic);
 		$stmt-> execute();
 		
 		// array ("Mariann", "M") massiiv
@@ -208,9 +212,7 @@
 			$reply = new StdClass();
 			$reply->id = $id;
 			$reply->content = $content;
-			$reply->created = $created;
 			$reply->topic = $topic;
-			$reply->user = $user;
 		
 			//echo $color."<br>";	
 			array_push ($result, $reply);

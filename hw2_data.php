@@ -48,8 +48,8 @@
 		empty($newHeadlineError)&&
 		empty($newContentError)
 		){
-			createNewPost (cleanInput($_POST["headline"]), $_SESSION["firstName"]);
-			createNewContent (cleanInput($_POST["content"]), cleanInput($_POST["headline"]), $_SESSION["firstName"]); 	
+			createNewPost (cleanInput($_POST["headline"]), $_SESSION["firstName"], $_SESSION["email"]);
+			createNewContent (cleanInput($_POST["content"]), cleanInput($_POST["headline"]), $_SESSION["firstName"], $_SESSION["email"]); 	
 			header("Location:hw2_data.php");
 			exit();
 	} 
@@ -70,9 +70,7 @@
 	<input type="text" name="headline" value="<?=$newHeadline;?>"> <?php echo $newHeadlineError; ?>
 	<br><br>
 	<label>Sisu:</label>
-	<textarea cols="40" rows="5" name="content" <?=$newContent = ""; if (isset($_POST['content'])) { $newContent = $_POST['content'];}?> ><?php echo $newContent; ?></textarea> <?php echo $newContentError; ?> <!--Textareal pole eraldi value, vaid käib nurksulgudesse-->
-	
-	
+	<textarea cols="40" rows="5" name="content" <?=$newContent = ""; if (isset($_POST['content'])) { $newContent = $_POST['content'];}?> ><?php echo $newContent; ?></textarea> <?php echo $newContentError; ?> <!--Textareal pole eraldi value, sinna sisse kirjutada-->
 	<br><br>
 	<input type="submit" value = "Postita">
 </form>
@@ -85,6 +83,7 @@
 			//$html .= "<th>Id</th>";
 			$html .= "<th>Teema</th>";
 			$html .= "<th>Kasutaja</th>";
+			$html .= "<th>Kasutaja e-post</th>";
 			$html .= "<th>Lisamise kuupäev</th>";
 		$html .= "</tr>";
 
@@ -94,6 +93,7 @@
 			//$html .= "<td> <a href='#heading' onclick='changeTitle()'>".$t->subject."</a></td>";
 			$html .= "<td> ".$t->subject."</a></td>";
 			$html .= "<td>".$t->user."</td>";
+			$html .= "<td>".$t->email."</td>";
 			$html .= "<td>".$t->created."</td>";
 		$html .= "</tr>";
 	} 
@@ -103,15 +103,13 @@
 	
 	$headingName = "";
 	$html = "<table>";
-		$html .= "<tr>"; // 
-			//$html .= "<th>Id</th>";
+		$html .= "<tr>"; 
 			$html .= "<th>Teema</th>";
 			$html .= "<th>Sisu</th>";
 		$html .= "</tr>";
 
 	foreach($replies as $r){
 		$html .= "<tr>";
-			//$html .= "<td>".$t->id."</td>";
 			$html .= "<td>".$r->topic."</td>";
 			$html .= "<td>".$r->content."</td>";
 		$html .= "</tr>";
