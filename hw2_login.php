@@ -161,7 +161,7 @@
 			<input name="loginEmail" type="email" placeholder="E-post" value= "<?=$loginEmail;?>"> <?php echo $loginEmailError; ?>
 			<br><br>
 			
-			<input name="loginPassword" type="password" placeholder="Parool"> <?php echo $loginPasswordError; ?>
+			<input name="loginPassword" type="password" placeholder="Parool"> <?php echo $loginPasswordError; ?><!--Parooli väljale meelde ei jäta-->
 			<br><br>
 			
 			<input type="submit" value = "Logi sisse">
@@ -172,12 +172,12 @@
 		<form method="POST">
 			<label>Eesnimi</label>
 			<br>
-			<input name="firstName" type="text"> <?php echo $firstNameError; ?>
+			<input name="firstName" type="text" value= "<?=$firstName;?>"> <?php echo $firstNameError; ?>
 			<br><br>
 			
 			<label>Perekonnanimi</label>
 			<br>
-			<input name="lastName" type="text"> <?php echo $lastNameError; ?>
+			<input name="lastName" type="text" value= "<?=$lastName;?>"> <?php echo $lastNameError; ?>
 			<br><br>
 		
 			<label>E-Post</label>
@@ -207,7 +207,7 @@
 			
 			<label>Telefoni number</label> <!--Jätan vabatahtlikuks väljaks-->
 			<br>
-			<input name="phoneNumber" type="text"> <?php echo $phoneNumberError; ?>
+			<input name="phoneNumber" type="text" value= "<?=$phoneNumber;?>"> <?php echo $phoneNumberError; ?>
 			<br><br>
 			
 			<input type="submit" value = "Loo kasutaja">
