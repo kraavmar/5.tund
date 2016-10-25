@@ -1,8 +1,8 @@
 <?php
 	//functions.php
 	
-	require("../../config.php"); //nõuab seda faili ja crashib kui ei saa
-	//require_once("../../config.php"); //kontrollib kas see fail on juba lisatud, võtab vähem ressurssi 
+	//require("../../config.php"); //nõuab seda faili ja crashib kui ei saa
+	require_once("../../config.php"); //kontrollib kas see fail on juba lisatud, võtab vähem ressurssi 
 	
 	//alustan sessiooni, et saaks kasutada $_SESSION muutujaid
 	session_start(); //sessioon töötab, isegi kui kasutaja pole veel sisse logind
@@ -169,10 +169,8 @@
 		$stmt->bind_result ($id, $subject, $date, $user, $email);
 		$stmt-> execute();
 		
-		// array ("Mariann", "M") massiiv
 		$result = array();
-		
-		//seni kuni on üks rida andmeid saada (10 rida = 10 korda)
+
 		while ($stmt->fetch()){	
 			$topic = new StdClass();
 			$topic->id = $id;
@@ -180,8 +178,7 @@
 			$topic->created = $date;
 			$topic->user = $user;
 			$topic->email = $email;
-		
-			//echo $color."<br>";	
+			
 			array_push ($result, $topic);
 			$_SESSION["subject"] = $subject;
 		}
@@ -203,17 +200,14 @@
 		$stmt->bind_result($id, $content, $topic);
 		$stmt-> execute();
 		
-		// array ("Mariann", "M") massiiv
 		$result = array();
 		
-		//seni kuni on üks rida andmeid saada (10 rida = 10 korda)
 		while ($stmt->fetch()){	
 			$reply = new StdClass();
 			$reply->id = $id;
 			$reply->content = $content;
 			$reply->topic = $topic;
 		
-			//echo $color."<br>";	
 			array_push ($result, $reply);
 		}
 		$stmt->close();
@@ -225,7 +219,7 @@
 	function cleanInput($input){
 		
 		$input = trim($input); // trim($str)-  only whitespace from the beginning and end. Muidu andmebaasi jätab tühikud isegi kui lehele ei jäta!
-		$input = stripslashes($input); // function removes /
+		$input = stripslashes($input); // function removes \
 		$input = htmlspecialchars($input); //The htmlspecialchars() function converts some predefined characters to HTML
 		
 		return $input;

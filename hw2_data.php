@@ -102,6 +102,8 @@
 	echo $html;
 	
 	$headingName = "";
+	//$html = "<table border='1'>";
+	//$html = "<table border=\"1\">"; \ ei lõhu ära 
 	$html = "<table>";
 		$html .= "<tr>"; 
 			$html .= "<th>Teema</th>";
@@ -114,6 +116,7 @@
 			$html .= "<td>".$r->content."</td>";
 		$html .= "</tr>";
 	} 
+	$html .= "</table>";
 	//echo $html;
 	$contentTable = $html;
 ?>

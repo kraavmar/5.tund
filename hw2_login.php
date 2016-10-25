@@ -132,7 +132,7 @@
 		
 		//echo $serverPassword;
 		
-		signup(cleanInput($firstName), cleanInput($lastName), cleanInput($signupEmail), cleanInput($password), cleanInput($gender), cleanInput($phoneNumber)); //clearInput igale muutujale eraldi teha
+		signup(cleanInput($firstName), cleanInput($lastName), cleanInput($signupEmail), cleanInput($password), cleanInput($gender), cleanInput($phoneNumber)); //cleanInput igale muutujale eraldi teha
 	}
 	
 	$notice = "";
@@ -169,22 +169,23 @@
 		<h1>Loo kasutaja</h1>	
 		
 		<form method="POST">
-			<label>Eesnimi</label>
+			<p><span style="color:red; font-size: 10pt">* </span><span style="font-size: 10pt">Kohustuslik väli</span></p>
+			<label>Eesnimi <span style="color:red">*</span></label>
 			<br>
 			<input name="firstName" type="text" value= "<?=$firstName;?>"> <?php echo $firstNameError; ?>
 			<br><br>
 			
-			<label>Perekonnanimi</label>
+			<label>Perekonnanimi <span style="color:red">*</span></label>
 			<br>
 			<input name="lastName" type="text" value= "<?=$lastName;?>"> <?php echo $lastNameError; ?>
 			<br><br>
 		
-			<label>E-Post</label>
+			<label>E-Post <span style="color:red">*</span></label>
 			<br>
 			<input name="signupEmail" type="email" value= "<?=$signupEmail;?>" > <?php echo $signupEmailError; ?> <!--jätab signupEmaili meelde väljale-->
 			<br><br>
 			
-			<label>Parool</label>
+			<label>Parool <span style="color:red">*</span></label>
 			<br>
 			<input name="signupPassword" type="password"> <?php echo $signupPasswordError; ?>
 			<br><br>
